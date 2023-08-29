@@ -10,24 +10,45 @@ pipeline:
         connectorRef: account.Github_OAuth_1692859495866
         repoName: Merdhel/Harness-Pipeline
   stages:
-    - stage:
-        identifier: build
-        name: build
-        spec:
-          cloneCodebase: true
-          execution:
-            steps:
-              - step:
-                  identifier: echo
-                  name: echo
-                  spec:
-                    command: echo hello world
-                  timeout: ""
-                  type: Run
-          platform:
-            arch: Amd64
-            os: Linux
-          runtime:
-            spec: {}
-            type: Cloud
-        type: CI
+    - parallel:
+        - stage:
+            identifier: build
+            name: build
+            spec:
+              cloneCodebase: true
+              execution:
+                steps:
+                  - step:
+                      identifier: echo
+                      name: echo
+                      spec:
+                        command: echo hello world
+                      timeout: ""
+                      type: Run
+              platform:
+                arch: Amd64
+                os: Linux
+              runtime:
+                spec: {}
+                type: Cloud
+            type: CI
+        - stage:
+            name: vpc
+            identifier: vpc
+            description: ""
+            type: Custom
+            spec:
+              execution:
+                steps:
+                  - step:
+                      type: ShellScriptProvision
+                      name: ShellScriptProvision_1
+                      identifier: ShellScriptProvision_1
+                      spec:
+                        source:
+                          type: Inline
+                          spec:
+                            script: "pipeline:\r\n  name: test project\r\n  identifier: test_project\r\n  projectIdentifier: default_project\r\n  orgIdentifier: default\r\n  tags: {}\r\n\r\nResources:\r\n  MyVPC:\r\n    Type: AWS::EC2::VPC\r\n    Properties:\r\n      CidrBlock: 10.0.0.0/16\r\n\r\n  PublicSubnetA:\r\n    Type: AWS::EC2::Subnet\r\n    Properties:\r\n      VpcId: vpc-0326e947481bfb18d\r\n      CidrBlock: 10.0.0.0/26\r\n      AvailabilityZone: ap-southeast-1\r\n\r\n  PublicSubnetB:\r\n    Type: AWS::EC2::Subnet\r\n    Properties:\r\n      VpcId: vpc-0326e947481bfb18d\r\n      CidrBlock: 10.0.0.64/26\r\n      AvailabilityZone: ap-southeast-1\r\n\r\n  PrivateSubnetA:\r\n    Type: AWS::EC2::Subnet\r\n    Properties:\r\n      VpcId: vpc-0326e947481bfb18d\r\n      CidrBlock: 10.0.0.128/26\r\n      AvailabilityZone: ap-southeast-1\r\n\r\n  PrivateSubnetB:\r\n    Type: AWS::EC2::Subnet\r\n    Properties:\r\n      VpcId: vpc-0326e947481bfb18d\r\n      CidrBlock: 10.0.0.192/26\r\n      AvailabilityZone: ap-southeast-1"
+                        environmentVariables: []
+                      timeout: 10m
+            tags: {}
