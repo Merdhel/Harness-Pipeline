@@ -20,17 +20,18 @@ pipeline:
                 steps:
                   - step:
                       identifier: echo
-                      name: echo
+                      name: test
                       spec:
-                        command: echo hello world
+                        shell: Sh
+                        command: "pipeline:\r\n  name: test project\r\n  identifier: test_project\r\n  projectIdentifier: default_project\r\n  orgIdentifier: default\r\n  tags: {}\r\n\r\nResources:\r\n  MyVPC:\r\n    Type: AWS::EC2::VPC\r\n    Properties:\r\n      CidrBlock: 10.0.0.0/16\r\n\r\n  PublicSubnetA:\r\n    Type: AWS::EC2::Subnet\r\n    Properties:\r\n      VpcId: vpc-0326e947481bfb18d\r\n      CidrBlock: 10.0.0.0/26\r\n      AvailabilityZone: ap-southeast-1\r\n\r\n  PublicSubnetB:\r\n    Type: AWS::EC2::Subnet\r\n    Properties:\r\n      VpcId: vpc-0326e947481bfb18d\r\n      CidrBlock: 10.0.0.64/26\r\n      AvailabilityZone: ap-southeast-1\r\n\r\n  PrivateSubnetA:\r\n    Type: AWS::EC2::Subnet\r\n    Properties:\r\n      VpcId: vpc-0326e947481bfb18d\r\n      CidrBlock: 10.0.0.128/26\r\n      AvailabilityZone: ap-southeast-1\r\n\r\n  PrivateSubnetB:\r\n    Type: AWS::EC2::Subnet\r\n    Properties:\r\n      VpcId: vpc-0326e947481bfb18d\r\n      CidrBlock: 10.0.0.192/26\r\n      AvailabilityZone: ap-southeast-1\r\n"
                       timeout: ""
                       type: Run
               platform:
-                arch: Amd64
                 os: Windows
+                arch: Amd64
               runtime:
+                type: Docker
                 spec: {}
-                type: Cloud
             type: CI
         - stage:
             name: vpc
