@@ -1,5 +1,6 @@
 inputSet:
   name: TestInput
+  tags: {}
   identifier: TestInput
   orgIdentifier: default
   projectIdentifier: Test
@@ -11,5 +12,4 @@ inputSet:
           build:
             type: branch
             spec:
-              branch: Harness-Pipeline
-  object Object: pipeline.properties.ci.codebase
+              branch: main
