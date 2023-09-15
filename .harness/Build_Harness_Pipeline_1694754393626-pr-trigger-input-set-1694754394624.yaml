@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_Harness_Pipeline_1694754393626-pr-trigger-input-set
+  identifier: Build_Harness_Pipeline_1694754393626prtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: TestDeploymentAWS
+  pipeline:
+    identifier: Build_Harness_Pipeline_1694754393626
+    properties:
+      ci:
+        codebase:
+          build:
+            type: PR
+            spec:
+              number: <+trigger.prNumber>
